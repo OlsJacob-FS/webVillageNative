@@ -1,9 +1,21 @@
 import { StatusBar } from "expo-status-bar";
-import { Text, View, SafeAreaView, TextInput, Keyboard } from "react-native";
+import {
+  Text,
+  View,
+  SafeAreaView,
+  TextInput,
+  Keyboard,
+  Pressable,
+  KeyboardAvoidingView,
+  ScrollView,
+} from "react-native";
 import { Button } from "react-native";
 //css styles import
 import styles from "../appstyles";
+//react imports
 import { useEffect, useState } from "react";
+//Components Imports
+import KeyboardAvoidingContainer from "../components/KeyboardAviodingContainer";
 
 export default function Character({ navigation, route }) {
   //character variables
@@ -54,40 +66,60 @@ export default function Character({ navigation, route }) {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <Text> ID: {route.params._id}</Text>
-      <Text> Name: {route.params.name}</Text>
-      <Text> Age: {route.params.age}</Text>
-      <Text> Village: {route.params.village}</Text>
-      <Button title="Delete" onPress={() => deleteCharacter()} />
-      <View>
+      <KeyboardAvoidingContainer>
         <View>
-          <TextInput
-            placeholder="Name"
-            onChangeText={setCharacterName}
-            value={characterName}
-          />
-          <TextInput
-            placeholder="Age"
-            onChangeText={setCharacterAge}
-            value={characterAge}
-            keyboardType="numeric"
-          />
-          <TextInput
-            multiline
-            placeholder="Village"
-            onChangeText={setCharacterVillage}
-            value={characterVillage}
-            onEndEditing={Keyboard.dismiss}
-          />
-          <Button
-            title={isUpdating ? "Updating..." : "Update Shinobi"}
-            type="submit"
-            color="maroon"
-            onPress={updateCharacter}
-            disabled={isUpdating}
-          />
+          <Text style={styles.characterText}> Meet {route.params.name}</Text>
+          <View style={styles.characterContainer}>
+            <Text>Shinobi Info:</Text>
+            <Text style={styles.characterText}> Age: {route.params.age}</Text>
+            <Text style={styles.characterText}>
+              Village: {route.params.village}
+            </Text>
+            <Pressable
+              title="Delete"
+              onPress={() => deleteCharacter()}
+              style={styles.btn}
+            >
+              <Text style={styles.btnText}>Delete Shinobi</Text>
+            </Pressable>
+          </View>
         </View>
-      </View>
+        <View>
+          <Text style={styles.descText}>Edit Shinobi Information:</Text>
+          <View>
+            <TextInput
+              placeholder="Name"
+              onChangeText={setCharacterName}
+              value={characterName}
+              style={styles.formInput}
+            />
+            <TextInput
+              placeholder="Age"
+              onChangeText={setCharacterAge}
+              value={characterAge}
+              keyboardType="numeric"
+              style={styles.formInput}
+            />
+            <TextInput
+              multiline
+              placeholder="Village"
+              onChangeText={setCharacterVillage}
+              value={characterVillage}
+              onEndEditing={Keyboard.dismiss}
+              style={styles.formInput}
+            />
+            <Pressable
+              style={styles.btn}
+              type="submit"
+              color="maroon"
+              onPress={updateCharacter}
+              disabled={isUpdating}
+            >
+              <Text style={styles.btnText}>Edit Shinobi</Text>
+            </Pressable>
+          </View>
+        </View>
+      </KeyboardAvoidingContainer>
     </SafeAreaView>
   );
 }

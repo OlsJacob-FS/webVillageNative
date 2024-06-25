@@ -5,6 +5,7 @@ import {
   Button,
   FlatList,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 //css styles import
 import styles from "./appstyles";
@@ -28,25 +29,27 @@ function Home({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Welcome to the Village hidden in the Web</Text>
+      <Text style={styles.welcome}>
+        Welcome to the Village hidden in the Web
+      </Text>
+      <Text style={styles.welcome}>Meet our Shinobi</Text>
       <FlatList
         data={character}
         renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Character", item)}
           >
-            <Text>{item.name}</Text>
+            <Text style={styles.listItems}>{item.name}</Text>
           </TouchableOpacity>
         )}
         keyExtractor={(item) => item._id}
-        style={styles.listContainer}
       />
-      <Button
-        title="Create Shinobi "
+      <Pressable
         onPress={() => navigation.navigate("CreateShinobi")}
-      />
-
-      <StatusBar style="auto" />
+        style={[styles.btn]}
+      >
+        <Text style={styles.btnText}>Create Shinobi</Text>
+      </Pressable>
     </SafeAreaView>
   );
 }
@@ -62,12 +65,12 @@ export default function App() {
         <stack.Screen
           name="Home"
           component={Home}
-          options={{ title: "Village" }}
+          options={{ title: "Web Village" }}
         />
         <stack.Screen
           name="CreateShinobi"
           component={CreateShinobi}
-          options={{ title: "Village" }}
+          options={{ title: "Create Shinobi" }}
         />
         <stack.Screen
           name="Character"

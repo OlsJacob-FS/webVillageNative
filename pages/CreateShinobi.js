@@ -1,9 +1,12 @@
-import { Text, View, SafeAreaView, TextInput, Button } from "react-native";
+import { Text, View, SafeAreaView, TextInput, Pressable } from "react-native";
 //css styles import
 import styles from "../appstyles";
+//React imports
 import { useState } from "react";
+//component imports:
+import KeyboardAvoidingContainer from "../components/KeyboardAviodingContainer";
 
-export default function CreateShinobi() {
+export default function CreateShinobi({ navigation }) {
   //character variables
   const [characterName, setCharacterName] = useState("");
   const [characterAge, setCharacterAge] = useState("");
@@ -31,48 +34,46 @@ export default function CreateShinobi() {
     setCharacterName("");
     setCharacterVillage("");
     setIsPosting(false);
+    navigation.navigate("Home");
   };
 
-  const handleSubmit = () => {
-    createCharacter();
-  };
-
-  const handleInputChanges = (event) => {
-    setValues((values) => ({
-      ...values,
-      [event.target.name]: event.target.value,
-    }));
-  };
   return (
     <SafeAreaView style={styles.container}>
-      <View>
+      <Text style={styles.welcome}>Add A Shinobi To Our Ranks</Text>
+      <KeyboardAvoidingContainer>
         <View>
           <TextInput
             placeholder="Name"
             onChangeText={setCharacterName}
             value={characterName}
+            style={styles.formInput}
           />
           <TextInput
             placeholder="Age"
             onChangeText={setCharacterAge}
             value={characterAge}
             keyboardType="numeric"
+            style={styles.formInput}
           />
           <TextInput
             multiline
             placeholder="Village"
             onChangeText={setCharacterVillage}
             value={characterVillage}
+            style={styles.formInput}
           />
-          <Button
+          <Pressable
             title={isPosting ? "Creating..." : "Create Shinobi"}
             type="submit"
             color="maroon"
             onPress={createCharacter}
             disabled={isPosting}
-          />
+            style={styles.btn}
+          >
+            <Text style={styles.btnText}>Add Shinobi</Text>
+          </Pressable>
         </View>
-      </View>
+      </KeyboardAvoidingContainer>
     </SafeAreaView>
   );
 }
